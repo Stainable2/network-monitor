@@ -5,20 +5,21 @@ import java.net.InetAddress;
 
 public class NetworkMonitor {
 
-    public boolean isReachable(String host) throws IOException {
-        InetAddress address = InetAddress.getByName(host);
-        return address.isReachable(5000);
-    }
+    public NetworkCheckResult check(String host) {
+        try {
+            InetAddress address = InetAddress.getByName(host);
 
-    public long getResponseTime(String host) throws IOException {
-        InetAddress address = InetAddress.getByName(host);
+            long start = System.nanoTime();
 
-        long start = System.nanoTime();
+            boolean reachable = address.isReachable(5000);
 
-        address.isReachable(5000);
+            long end = System.nanoTime();
 
-        long end = System.nanoTime();
+            long responseTime = (end - start) / 1_000_000;
 
-        return (end - start) / 1_000_000;
+            return new NetworkCheckResult(host, reachable, responseTime);
+        } catch (IOException e) {
+            return new NetworkCheckResult(host, false, -1);
+        }
     }
 }
