@@ -2,6 +2,8 @@ package com.robertas.networkmonitor;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NetworkMonitor {
 
@@ -21,5 +23,14 @@ public class NetworkMonitor {
         } catch (IOException e) {
             return new NetworkCheckResult(host, false, -1);
         }
+    }
+    public List<NetworkCheckResult> checkAll(List<String> hosts) {
+        List<NetworkCheckResult> results = new ArrayList<>();
+
+        for (String host : hosts) {
+            results.add(check(host));
+        }
+
+        return results;
     }
 }
