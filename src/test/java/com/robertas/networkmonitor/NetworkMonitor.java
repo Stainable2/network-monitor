@@ -14,4 +14,12 @@ class NetworkMonitorTest {
 
         assertTrue(monitor.isReachable("google.com"));
     }
+    @Test
+    void googleShouldReturnAResponseTime() throws IOException {
+        NetworkMonitor monitor = new NetworkMonitor();
+
+        long responseTime = monitor.getResponseTime("google.com");
+
+        assertTrue(responseTime >= 0);
+    }
 }
